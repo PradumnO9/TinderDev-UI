@@ -1,17 +1,19 @@
 import React from "react";
 
 const UserCard = ({ user }) => {
-  const { firstName, lastName, age, gender, imageUrl, about } = user;
   return (
     <div>
       <div className="card bg-base-300 w-96 shadow-sm">
         <figure>
-          <img src={imageUrl} alt="profle picture" />
+          <img src={user?.imageUrl} alt="profle picture" />
         </figure>
         <div className="card-body">
-          <h2 className="card-title">{firstName + " " + lastName}</h2>
-          <p>{about}</p>
-          {age && gender && <p>{age + " " + gender}</p>}
+          <h2 className="card-title">
+            {user?.firstName + " " + user?.lastName}
+          </h2>
+          {user?.age && <p>{user?.age}</p>}
+          {user?.gender && <p>{user?.gender}</p>}
+          <p>{user?.about}</p>
           <div className="card-actions justify-center">
             <button className="btn btn-primary">Ignore</button>
             <button className="btn btn-secondary">Interested</button>

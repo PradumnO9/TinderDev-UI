@@ -14,6 +14,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
+    setErrorMessage("");
     try {
       const response = await axios.post(
         `${BASE_URL}/auth/login`,
@@ -31,7 +32,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center my-20">
+    <div className="flex justify-center my-10">
       <div className="card card-border bg-base-300 w-96">
         <div className="card-body">
           <h2 className="card-title text-3xl justify-center">Login</h2>
