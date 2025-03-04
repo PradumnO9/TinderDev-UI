@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { addRequests } from "../redux/requestsSlice";
+import { addRequests, removeRequest } from "../redux/requestsSlice";
 
 const Requests = () => {
   const dispatch = useDispatch();
@@ -17,6 +17,19 @@ const Requests = () => {
       dispatch(addRequests(res.data.data));
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  const reviewRequest = async (status, _id) => {
+    try {
+      await axios.post(
+        `${BASE_URL}/request/review/${status}/${_id}`,
+        {},
+        { withCredentials: true }
+      );
+      dispatch(removeRequest(_id));
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -52,7 +65,7 @@ const Requests = () => {
           skills,
         } = request.fromUserId;
         return (
-          <div key={_id} className="flex justify-center my-2 hover:opacity-80">
+          <div key={_id} className="flex justify-center my-2">
             <ul className="list bg-base-300 rounded-box shadow-md">
               <li className="list-row">
                 <div>
@@ -68,10 +81,16 @@ const Requests = () => {
                 </div>
                 {about && <p className="list-col-wrap text-xs">{about}</p>}
                 <div className="card-actions justify-center">
-                  <button className="btn bg-green-600 cursor-pointer">
+                  <button
+                    className="btn bg-green-600 cursor-pointer hover:opacity-80"
+                    onClick={() => reviewRequest("accepted", request._id)}
+                  >
                     Accept
                   </button>
-                  <button className="btn bg-red-600 cursor-pointer">
+                  <button
+                    className="btn bg-red-600 cursor-pointer hover:opacity-80"
+                    onClick={() => reviewRequest("rejected", request._id)}
+                  >
                     Reject
                   </button>
                 </div>
