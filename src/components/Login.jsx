@@ -6,8 +6,9 @@ import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 
 const Login = () => {
-  const [emailId, setEmailId] = useState("pradumn.kumar@gmail.com");
-  const [password, setPassword] = useState("Pradumn@123");
+  const [emailId, setEmailId] = useState("nandita.dwivedi@gmail.com");
+  const [password, setPassword] = useState("Nandita@123");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -23,9 +24,9 @@ const Login = () => {
         { withCredentials: true }
       );
       dispatch(addUser(response.data.data));
-      navigate("/");
+      return navigate("/");
     } catch (err) {
-      console.error(err);
+      setErrorMessage(err?.response?.data || "Something Went Wrong!");
     }
   };
 
@@ -58,6 +59,9 @@ const Login = () => {
               />
             </label>
           </div>
+          {errorMessage && (
+            <span className="text-red-500 mb-2">{errorMessage}</span>
+          )}
           <div className="card-actions">
             <button
               className="btn btn-primary w-[96%] text-lg"
