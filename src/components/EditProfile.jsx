@@ -97,7 +97,6 @@ const EditProfile = ({ user }) => {
                   <input
                     type="radio"
                     name="radio-12"
-                    defaultChecked
                     value="male"
                     checked={gender === "male"}
                     onChange={(e) => setGender(e.target.value)}
@@ -111,7 +110,6 @@ const EditProfile = ({ user }) => {
                   <input
                     type="radio"
                     name="radio-12"
-                    defaultChecked
                     value="female"
                     checked={gender === "female"}
                     onChange={(e) => setGender(e.target.value)}
@@ -125,7 +123,6 @@ const EditProfile = ({ user }) => {
                   <input
                     type="radio"
                     name="radio-12"
-                    defaultChecked
                     value="other"
                     checked={gender === "other"}
                     onChange={(e) => setGender(e.target.value)}

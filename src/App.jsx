@@ -6,6 +6,7 @@ import Login from "./components/Login";
 import appStore from "./redux/appStore";
 import Feed from "./components/Feed";
 import Profile from "./components/Profile";
+import UserConnections from "./components/UserConnections";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
               <Route path="/" element={<Feed />} />
               <Route path="/login" element={<Login />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/connections" element={<UserConnections />} />
             </Route>
           </Routes>
         </BrowserRouter>
