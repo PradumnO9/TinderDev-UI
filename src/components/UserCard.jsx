@@ -7,7 +7,7 @@ const UserCard = ({ user }) => {
         <figure>
           <img src={user?.imageUrl} alt="profle picture" />
         </figure>
-        <div className="card-body">
+        <div className="card-body overflow-auto">
           <h2 className="card-title">
             {user?.firstName + " " + user?.lastName}
           </h2>

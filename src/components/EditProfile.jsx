@@ -39,8 +39,8 @@ const EditProfile = ({ user }) => {
   };
 
   return (
-    <div className="flex justify-center items-center">
-      <div className="flex justify-center my-10 mx-10">
+    <div className="flex justify-center my-10">
+      <div className="flex justify-center mx-10">
         <div className="card card-border bg-base-300 w-96">
           <div className="card-body">
             <h2 className="card-title text-3xl justify-center">
@@ -91,28 +91,60 @@ const EditProfile = ({ user }) => {
                   onChange={(e) => setAge(e.target.value)}
                 />
               </label>
-              <label className="form-control w-full max-w-xs">
-                <div className="label">
-                  <span className="label-text">Gender</span>
-                </div>
-                <input
-                  type="text"
-                  value={gender}
-                  className="input input-bordered w-full max-w-xs my-2"
-                  onChange={(e) => setGender(e.target.value)}
-                />
-              </label>
-              <label className="form-control w-full max-w-xs">
-                <div className="label">
-                  <span className="label-text">About</span>
-                </div>
-                <input
-                  type="text"
+              <div className="label">
+                <span className="label-text">Gender</span>
+                <label className="form-control w-full max-w-xs">
+                  <input
+                    type="radio"
+                    name="radio-12"
+                    defaultChecked
+                    value="male"
+                    checked={gender === "male"}
+                    onChange={(e) => setGender(e.target.value)}
+                    className="radio bg-blue-100 border-blue-300 checked:bg-blue-200 checked:text-blue-600 checked:border-blue-600"
+                  />
+                  <div className="label mx-2">
+                    <span className="label-text">Male</span>
+                  </div>
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="radio-12"
+                    defaultChecked
+                    value="female"
+                    checked={gender === "female"}
+                    onChange={(e) => setGender(e.target.value)}
+                    className="radio bg-pink-100 border-pink-300 checked:bg-pink-200 checked:text-pink-500 checked:border-pink-500"
+                  />
+                  <div className="label mx-2">
+                    <span className="label-text">Female</span>
+                  </div>
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="radio-12"
+                    defaultChecked
+                    value="other"
+                    checked={gender === "other"}
+                    onChange={(e) => setGender(e.target.value)}
+                    className="radio bg-purple-100 border-purple-300 checked:bg-purple-200 checked:text-purple-600 checked:border-purple-600"
+                  />
+                  <div className="label mx-2">
+                    <span className="label-text">Other</span>
+                  </div>
+                </label>
+              </div>
+              <fieldset className="fieldset">
+                <legend className="fieldset-legend">About</legend>
+                <textarea
                   value={about}
-                  className="input input-bordered w-full max-w-xs my-2"
                   onChange={(e) => setAbout(e.target.value)}
-                />
-              </label>
+                  className="textarea h-24"
+                  placeholder="Bio"
+                ></textarea>
+              </fieldset>
             </div>
             {errorMessage && (
               <span className="text-red-500 mb-2">{errorMessage}</span>
@@ -133,7 +165,7 @@ const EditProfile = ({ user }) => {
         <div className="toast toast-top toast-center">
           <div className="alert alert-success">
             {successMessage && (
-              <span className="text-white mb-2">{successMessage}</span>
+              <span className=" font-bold mb-2">{successMessage}</span>
             )}
           </div>
         </div>
