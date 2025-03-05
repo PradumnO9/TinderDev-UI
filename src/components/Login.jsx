@@ -6,9 +6,14 @@ import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 
 const Login = () => {
-  const [emailId, setEmailId] = useState("nandita.dwivedi@gmail.com");
-  const [password, setPassword] = useState("Nandita@123");
+  const [emailId, setEmailId] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [isLoginForm, setIsLoginForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [showToast, setShowToast] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -31,12 +36,65 @@ const Login = () => {
     }
   };
 
+  const handleRegisterUser = async () => {
+    setErrorMessage("");
+    try {
+      const res = await axios.post(
+        `${BASE_URL}/auth/signup`,
+        {
+          firstName,
+          lastName,
+          emailId,
+          password,
+        },
+        { withCredentials: true }
+      );
+      setSuccessMessage(`${res.data.message} Now, Please Login`);
+      setShowToast(true);
+      setTimeout(() => {
+        setSuccessMessage("");
+        setShowToast(false);
+      }, 5000);
+      setIsLoginForm(!isLoginForm);
+    } catch (err) {
+      setErrorMessage(err?.response?.data || "Something Went Wrong!");
+    }
+  };
+
   return (
     <div className="flex justify-center my-10">
       <div className="card card-border bg-base-300 w-96">
         <div className="card-body">
-          <h2 className="card-title text-3xl justify-center">Login</h2>
+          <h2 className="card-title text-3xl justify-center">
+            {isLoginForm ? "Login" : "Register User"}
+          </h2>
           <div className="py-2">
+            {!isLoginForm && (
+              <>
+                <label className="form-control w-full max-w-xs">
+                  <div className="label">
+                    <span className="label-text">First Name</span>
+                  </div>
+                  <input
+                    type="text"
+                    value={firstName}
+                    className="input input-bordered w-full max-w-xs my-2"
+                    onChange={(e) => setFirstName(e.target.value)}
+                  />
+                </label>
+                <label className="form-control w-full max-w-xs">
+                  <div className="label">
+                    <span className="label-text">Last Name</span>
+                  </div>
+                  <input
+                    type="text"
+                    value={lastName}
+                    className="input input-bordered w-full max-w-xs my-2"
+                    onChange={(e) => setLastName(e.target.value)}
+                  />
+                </label>
+              </>
+            )}
             <label className="form-control w-full max-w-xs">
               <div className="label">
                 <span className="label-text">Email ID</span>
@@ -66,13 +124,37 @@ const Login = () => {
           <div className="card-actions">
             <button
               className="btn btn-primary w-[96%] text-lg"
-              onClick={handleLogin}
+              onClick={isLoginForm ? handleLogin : handleRegisterUser}
             >
-              Login
+              {isLoginForm ? "Login" : "Register User"}
             </button>
           </div>
+          {isLoginForm ? (
+            <p
+              className="cursor-pointer flex justify-end mx-3 mt-2"
+              onClick={() => setIsLoginForm((value) => !value)}
+            >
+              Click here to Register
+            </p>
+          ) : (
+            <p
+              className="cursor-pointer flex justify-end mx-3 mt-2"
+              onClick={() => setIsLoginForm((value) => !value)}
+            >
+              Click here to login
+            </p>
+          )}
         </div>
       </div>
+      {showToast && (
+        <div className="toast toast-top toast-center">
+          <div className="alert alert-success">
+            {successMessage && (
+              <span className=" font-bold mb-2">{successMessage}</span>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -66,7 +66,7 @@ const Requests = () => {
         } = request.fromUserId;
         return (
           <div key={_id} className="flex justify-center my-2">
-            <ul className="list bg-base-300 rounded-box shadow-md">
+            <ul className="list bg-base-300 rounded-box shadow-md w-[95%] md:w-[50%]">
               <li className="list-row">
                 <div>
                   <img className="size-10 rounded-box" src={imageUrl} />

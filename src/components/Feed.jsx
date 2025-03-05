@@ -28,13 +28,20 @@ const Feed = () => {
     getFeed();
   }, []);
 
+  if (!userFeed) return;
+
+  if (userFeed.length === 0) {
+    return (
+      <div className="flex justify-center my-10">
+        <h1 className="font-bold text-2xl">No New User Found!</h1>
+      </div>
+    );
+  }
+
   return (
     userFeed && (
       <div className="flex justify-center my-10 flex-wrap">
         <UserCard user={userFeed[0]} />
-        {/* {userFeed.map((user) => {
-          return <UserCard key={user._id} users={user} />;
-        })} */}
       </div>
     )
   );

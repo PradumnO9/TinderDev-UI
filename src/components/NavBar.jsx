@@ -18,7 +18,7 @@ const NavBar = () => {
         { withCredentials: true }
       );
       dispatch(removeUser());
-      return navigate("/login");
+      return navigate("/auth");
     } catch (err) {
       // Error redirect to login page
       console.error(err);
@@ -59,8 +59,10 @@ const NavBar = () => {
               <li>
                 <Link to="/profile" className="justify-between">
                   Profile
-                  <span className="badge">New</span>
                 </Link>
+              </li>
+              <li>
+                <Link to="/">Feed</Link>
               </li>
               <li>
                 <Link to="/connections">Connections</Link>
