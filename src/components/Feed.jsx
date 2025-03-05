@@ -4,10 +4,14 @@ import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addFeed } from "../redux/feedSlice";
 import UserCard from "./UserCard";
+import { useNavigate } from "react-router-dom";
+import { addUser } from "../redux/userSlice";
 
 const Feed = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const userFeed = useSelector((store) => store.feed);
+  const userData = useSelector((store) => store.user);
 
   const getFeed = async () => {
     if (userFeed) {
@@ -24,7 +28,26 @@ const Feed = () => {
     }
   };
 
+  const fetchLoggedInUser = async () => {
+    if (userData) {
+      return;
+    } else {
+      try {
+        const response = await axios.get(`${BASE_URL}/profile/view`, {
+          withCredentials: true,
+        });
+        dispatch(addUser(response.data));
+      } catch (err) {
+        if (err.status === 401) {
+          navigate("/auth");
+        }
+        console.error(err.response.data);
+      }
+    }
+  };
+
   useEffect(() => {
+    fetchLoggedInUser();
     getFeed();
   }, []);
 
