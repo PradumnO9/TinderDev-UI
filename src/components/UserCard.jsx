@@ -4,7 +4,7 @@ import { BASE_URL } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { removeUserFromFeed } from "../redux/feedSlice";
 
-const UserCard = ({ user }) => {
+const UserCard = ({ user, isProfilePage }) => {
   const dispatch = useDispatch();
 
   const handleSendRequest = async (status, _id) => {
@@ -33,20 +33,22 @@ const UserCard = ({ user }) => {
           {user?.age && <p>{user?.age}</p>}
           {user?.gender && <p>{user?.gender}</p>}
           <p>{user?.about}</p>
-          <div className="card-actions justify-center">
-            <button
-              className="btn btn-primary"
-              onClick={() => handleSendRequest("ignored", user._id)}
-            >
-              Ignore
-            </button>
-            <button
-              className="btn btn-secondary"
-              onClick={() => handleSendRequest("interested", user._id)}
-            >
-              Interested
-            </button>
-          </div>
+          {!isProfilePage && (
+            <div className="card-actions justify-center">
+              <button
+                className="btn btn-primary"
+                onClick={() => handleSendRequest("ignored", user._id)}
+              >
+                Ignore
+              </button>
+              <button
+                className="btn btn-secondary"
+                onClick={() => handleSendRequest("interested", user._id)}
+              >
+                Interested
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

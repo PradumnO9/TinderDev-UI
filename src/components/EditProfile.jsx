@@ -15,6 +15,7 @@ const EditProfile = ({ user }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [showToast, setShowToast] = useState(false);
+  const isProfilePage = true;
 
   const dispatch = useDispatch();
 
@@ -157,7 +158,10 @@ const EditProfile = ({ user }) => {
           </div>
         </div>
       </div>
-      <UserCard user={{ firstName, lastName, age, gender, imageUrl, about }} />
+      <UserCard
+        user={{ firstName, lastName, age, gender, imageUrl, about }}
+        isProfilePage={isProfilePage}
+      />
       {showToast && (
         <div className="toast toast-top toast-center">
           <div className="alert alert-success">
