@@ -40,7 +40,7 @@ const EditProfile = ({ user }) => {
   };
 
   return (
-    <div className="flex justify-center my-10">
+    <div className="md:flex md:justify-center my-10">
       <div className="flex justify-center mx-10">
         <div className="card card-border bg-base-300 w-96">
           <div className="card-body">
@@ -158,10 +158,12 @@ const EditProfile = ({ user }) => {
           </div>
         </div>
       </div>
-      <UserCard
-        user={{ firstName, lastName, age, gender, imageUrl, about }}
-        isProfilePage={isProfilePage}
-      />
+      <div className="flex justify-center my-4">
+        <UserCard
+          user={{ firstName, lastName, age, gender, imageUrl, about }}
+          isProfilePage={isProfilePage}
+        />
+      </div>
       {showToast && (
         <div className="toast toast-top toast-center">
           <div className="alert alert-success">
