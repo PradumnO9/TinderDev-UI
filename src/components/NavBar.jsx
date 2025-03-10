@@ -1,15 +1,23 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect } from "react";
+import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
-import { removeUser } from "../redux/userSlice";
+import { addUser, removeUser } from "../redux/userSlice";
 import { clearFeed } from "../redux/feedSlice";
 
 const NavBar = () => {
   const loggedInUser = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    dispatch(addUser(JSON.parse(user)));
+  }, []);
+
+  const token = Cookies.get("token");
 
   const handleLogout = async () => {
     try {
@@ -20,6 +28,7 @@ const NavBar = () => {
       );
       dispatch(removeUser());
       dispatch(clearFeed());
+      localStorage.clear();
       return navigate("/auth");
     } catch (err) {
       // Error redirect to login page
@@ -29,7 +38,7 @@ const NavBar = () => {
 
   return (
     <div className="navbar bg-base-200 shadow-sm">
-      {loggedInUser ? (
+      {token ? (
         <div className="flex-1">
           <Link to="/" className="btn btn-ghost text-xl">
             TinderDev
@@ -80,7 +89,7 @@ const NavBar = () => {
           </div>
         </div>
       )}
-      {loggedInUser && (
+      {token && (
         <div className="flex gap-2">
           <div className="form-control">Welcome, {loggedInUser?.firstName}</div>
           <div className="dropdown dropdown-end mx-4">

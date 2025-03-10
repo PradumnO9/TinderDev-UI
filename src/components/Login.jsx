@@ -30,6 +30,7 @@ const Login = () => {
         { withCredentials: true }
       );
       dispatch(addUser(response.data.data));
+      localStorage.setItem("user", JSON.stringify(response.data.data));
       return navigate("/");
     } catch (err) {
       setErrorMessage(err?.response?.data || "Something Went Wrong!");
