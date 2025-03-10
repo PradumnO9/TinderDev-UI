@@ -7,8 +7,10 @@ import Footer from "./Footer";
 const Body = () => {
   return (
     <div>
-      <NavBar />
-      <Outlet />
+      <div className="min-h-[90vh]">
+        <NavBar />
+        <Outlet />
+      </div>
       <Footer />
     </div>
   );
