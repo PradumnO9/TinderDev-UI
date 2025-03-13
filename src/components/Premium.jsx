@@ -1,9 +1,13 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BASE_URL } from "../utils/constants";
 
 const Premium = () => {
   const [isUserPremium, setIsUserPremium] = useState(false);
+
+  useEffect(() => {
+    verifyPremiumUser();
+  }, []);
 
   const verifyPremiumUser = async () => {
     const res = await axios.get(`${BASE_URL}/payment/verify-premium`, {
@@ -37,7 +41,7 @@ const Premium = () => {
       theme: {
         color: "#F37254",
       },
-      handler: verifyPremiumUser(),
+      handler: verifyPremiumUser,
     };
 
     const rzp = new window.Razorpay(options);
