@@ -1,19 +1,28 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { BASE_URL } from "../utils/constants";
 
 const Premium = () => {
+  const [isUserPremium, setIsUserPremium] = useState(false);
+
+  const verifyPremiumUser = async () => {
+    const res = await axios.get(`${BASE_URL}/payment/verify-premium`, {
+      withCredentials: true,
+    });
+    if (res.data.isPremium) {
+      setIsUserPremium(true);
+    }
+  };
+
   const handleSubscribeButton = async (type) => {
     const order = await axios.post(
       `${BASE_URL}/payment/create-order`,
       { membershipType: type },
       { withCredentials: true }
     );
-
     const { amount, keyId, currency, notes, orderId } = order.data;
 
     // It should open the dialog box
-
     const options = {
       key: keyId,
       amount,
@@ -28,13 +37,34 @@ const Premium = () => {
       theme: {
         color: "#F37254",
       },
+      handler: verifyPremiumUser(),
     };
 
     const rzp = new window.Razorpay(options);
     rzp.open();
   };
 
-  return (
+  return isUserPremium ? (
+    <div
+      role="alert"
+      className="alert alert-success w-[90%] md:w-1/2 m-auto my-20"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-6 w-6 shrink-0 stroke-current"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
+      </svg>
+      <span>You are already a premium user!</span>
+    </div>
+  ) : (
     <div className="card w-96 bg-base-100 shadow-sm mx-auto my-4">
       <div className="card-body">
         <span className="badge badge-xs badge-warning">Most Popular</span>
