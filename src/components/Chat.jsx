@@ -2,15 +2,38 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { createSocketConnection } from "../utils/socket";
 import { useSelector } from "react-redux";
+import axios from "axios";
+import { BASE_URL } from "../utils/constants";
 
 const Chat = () => {
   const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useState([]);
-  console.log(messages);
 
   const { targetUserId } = useParams();
   const user = useSelector((store) => store.user);
   const loggedInUserId = user?._id;
+
+  const fetchChatData = async () => {
+    const chat = await axios.get(`${BASE_URL}/chat/${targetUserId}`, {
+      withCredentials: true,
+    });
+    const chatMessages = chat?.data?.messages.map((msg) => {
+      const { senderId, text, _id } = msg;
+      return {
+        loggedInUserId: senderId._id,
+        firstName: senderId.firstName,
+        lastName: senderId.lastName,
+        imageUrl: senderId.imageUrl,
+        newMessage: text,
+        messageId: _id,
+      };
+    });
+    setMessages(chatMessages);
+  };
+
+  useEffect(() => {
+    fetchChatData();
+  }, []);
 
   useEffect(() => {
     if (!loggedInUserId) return;
@@ -53,7 +76,7 @@ const Chat = () => {
         {messages.map((msg) => {
           return (
             <div
-              key={msg.loggedInUserId}
+              key={msg.messageId}
               className={
                 loggedInUserId === msg.loggedInUserId
                   ? "chat chat-end"

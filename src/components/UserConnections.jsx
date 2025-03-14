@@ -54,7 +54,7 @@ const UserConnections = () => {
             key={_id}
             className="flex justify-center my-2 hover:opacity-80 cursor-pointer"
           >
-            <ul className="list bg-base-300 rounded-box shadow-md w-[95%] md:w-[50%]">
+            <ul className="list bg-base-300 rounded-box shadow-md w-[95%] md:w-[70%]">
               <li className="list-row">
                 <div>
                   <img
