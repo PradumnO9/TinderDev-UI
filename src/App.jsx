@@ -13,6 +13,7 @@ import TermsAndConditions from "./components/TermsAndConditions";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import RefundPolicy from "./components/RefundPolicy";
 import Premium from "./components/Premium";
+import Chat from "./components/Chat";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
               <Route path="/connections" element={<UserConnections />} />
               <Route path="/requests" element={<Requests />} />
               <Route path="/premium" element={<Premium />} />
+              <Route path="/chat/:targetUserId" element={<Chat />} />
               <Route path="/pages/contact-us" element={<ContactUs />} />
               <Route
                 path="/pages/terms-and-conditions"
