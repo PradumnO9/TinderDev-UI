@@ -4,6 +4,8 @@ import { addUser } from "../redux/userSlice";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
+import { FaRegEyeSlash } from "react-icons/fa";
+import { FaRegEye } from "react-icons/fa";
 
 const Login = () => {
   const [emailId, setEmailId] = useState("");
@@ -14,6 +16,7 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [showToast, setShowToast] = useState(false);
+  const [eyeToggle, setEyeToggle] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -111,12 +114,27 @@ const Login = () => {
               <div className="label">
                 <span className="label-text">Password</span>
               </div>
-              <input
-                type="password"
-                value={password}
-                className="input input-bordered w-full max-w-xs"
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <div className="flex items-center">
+                <input
+                  type={`${eyeToggle ? "text" : "password"}`}
+                  value={password}
+                  className="input input-bordered w-full max-w-xs"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                {eyeToggle ? (
+                  <FaRegEye
+                    size={25}
+                    className="absolute cursor-pointer m-[75%] z-10"
+                    onClick={() => setEyeToggle(!eyeToggle)}
+                  />
+                ) : (
+                  <FaRegEyeSlash
+                    size={25}
+                    className="absolute cursor-pointer m-[75%] z-10"
+                    onClick={() => setEyeToggle(!eyeToggle)}
+                  />
+                )}
+              </div>
             </label>
           </div>
           {errorMessage && (
