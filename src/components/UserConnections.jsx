@@ -33,6 +33,7 @@ const UserConnections = () => {
       </div>
     );
   }
+  console.log(connections);
 
   return (
     <div className="my-10">
@@ -48,6 +49,7 @@ const UserConnections = () => {
           gender,
           about,
           skills,
+          onlineStatus,
         } = connection;
         return (
           <div
@@ -56,7 +58,11 @@ const UserConnections = () => {
           >
             <ul className="list bg-base-300 rounded-box shadow-md w-[95%] md:w-[70%]">
               <li className="list-row">
-                <div>
+                <div
+                  className={`w-16 ${
+                    onlineStatus ? "avatar avatar-online" : ""
+                  }`}
+                >
                   <img
                     className="size-16 rounded-box"
                     src={imageUrl}

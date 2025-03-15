@@ -6,16 +6,34 @@ import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 import { addUser, removeUser } from "../redux/userSlice";
 import { clearFeed } from "../redux/feedSlice";
+import { createSocketConnection } from "../utils/socket";
 
 const NavBar = () => {
   const loggedInUser = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const loggedInUserId = loggedInUser?._id;
 
   useEffect(() => {
     const user = localStorage.getItem("user");
     dispatch(addUser(JSON.parse(user)));
   }, []);
+
+  useEffect(() => {
+    if (!loggedInUserId) return;
+    const socket = createSocketConnection();
+    socket.emit("loggedIn", { loggedInUserId });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [loggedInUser]);
+
+  const statusOffline = () => {
+    if (!loggedInUserId) return;
+    const socket = createSocketConnection();
+    socket.emit("loggedOut", { loggedInUserId });
+  };
 
   const token = Cookies.get("token");
 
@@ -26,6 +44,7 @@ const NavBar = () => {
         {},
         { withCredentials: true }
       );
+      statusOffline();
       dispatch(removeUser());
       dispatch(clearFeed());
       localStorage.clear();
@@ -96,7 +115,7 @@ const NavBar = () => {
             <div
               tabIndex={0}
               role="button"
-              className="btn btn-ghost btn-circle avatar"
+              className="btn btn-ghost btn-circle avatar avatar-online"
             >
               <div className="w-10 rounded-full">
                 <img alt="Profile Picture" src={loggedInUser?.imageUrl} />

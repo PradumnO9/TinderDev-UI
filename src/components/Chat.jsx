@@ -76,7 +76,7 @@ const Chat = () => {
         {messages.map((msg) => {
           return (
             <div
-              key={msg.messageId}
+              key={msg?.messageId}
               className={
                 loggedInUserId === msg.loggedInUserId
                   ? "chat chat-end"
