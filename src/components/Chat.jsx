@@ -85,9 +85,14 @@ const Chat = () => {
                 <img src={imageUrl} />
               </div>
             </div>
-            <h1 className="mx-2 text-lg md:text-xl">
-              {firstName} {lastName}
-            </h1>
+            <div className="mx-2">
+              <h1 className="text-lg md:text-xl">
+                {firstName} {lastName}
+              </h1>
+              {onlineStatus && (
+                <span className="text-[12px] text-green-400">Active</span>
+              )}
+            </div>
           </div>
         </Link>
       </div>

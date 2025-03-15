@@ -75,6 +75,9 @@ const UserConnections = () => {
                       {age + ", " + gender}
                     </div>
                   )}
+                  {onlineStatus && (
+                    <span className="text-[12px] text-green-400">Active</span>
+                  )}
                 </div>
                 {about && <p className="list-col-wrap text-xs">{about}</p>}
                 <Link
