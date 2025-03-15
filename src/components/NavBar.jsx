@@ -27,7 +27,7 @@ const NavBar = () => {
     return () => {
       socket.disconnect();
     };
-  }, [loggedInUser]);
+  }, [loggedInUserId]);
 
   const statusOffline = () => {
     if (!loggedInUserId) return;

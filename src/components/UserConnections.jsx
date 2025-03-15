@@ -33,7 +33,6 @@ const UserConnections = () => {
       </div>
     );
   }
-  console.log(connections);
 
   return (
     <div className="my-10">
@@ -78,7 +77,10 @@ const UserConnections = () => {
                   )}
                 </div>
                 {about && <p className="list-col-wrap text-xs">{about}</p>}
-                <Link to={`/chat/${_id}`}>
+                <Link
+                  to={`/chat/${_id}`}
+                  state={{ firstName, lastName, imageUrl, onlineStatus }}
+                >
                   <button className="btn btn-secondary">Chat</button>
                 </Link>
               </li>

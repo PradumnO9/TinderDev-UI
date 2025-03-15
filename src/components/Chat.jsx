@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { createSocketConnection } from "../utils/socket";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
+import { MdArrowBackIosNew } from "react-icons/md";
 
 const Chat = () => {
   const [newMessage, setNewMessage] = useState("");
@@ -12,6 +13,9 @@ const Chat = () => {
   const { targetUserId } = useParams();
   const user = useSelector((store) => store.user);
   const loggedInUserId = user?._id;
+
+  const location = useLocation();
+  const { firstName, lastName, imageUrl, onlineStatus } = location.state;
 
   const fetchChatData = async () => {
     const chat = await axios.get(`${BASE_URL}/chat/${targetUserId}`, {
@@ -71,7 +75,22 @@ const Chat = () => {
 
   return (
     <div className="w-[95%] md:w-[70%] my-10 mx-auto border border-gray-600 h-[70vh] shadow-2xl rounded-2xl flex flex-col">
-      <h1 className="p-5 border-b border-gray-600 text-2xl">Chat</h1>
+      <div className="border-b border-gray-600 p-4">
+        <Link to="/connections">
+          <div className="flex items-center">
+            <MdArrowBackIosNew size={25} className="cursor-pointer mr-2" />
+
+            <div className={`avatar ${onlineStatus && "avatar-online"}`}>
+              <div className="w-7 md:w-9 rounded-full">
+                <img src={imageUrl} />
+              </div>
+            </div>
+            <h1 className="mx-2 text-lg md:text-xl">
+              {firstName} {lastName}
+            </h1>
+          </div>
+        </Link>
+      </div>
       <div className="flex-1 overflow-y-auto p-5">
         {messages.map((msg) => {
           return (
@@ -91,7 +110,15 @@ const Chat = () => {
               <div className="chat-header">
                 {`${msg?.firstName} ${msg?.lastName}`}
               </div>
-              <div className="chat-bubble">{msg?.newMessage}</div>
+              <div
+                className={`chat-bubble ${
+                  loggedInUserId === msg.loggedInUserId
+                    ? "bg-gray-90000"
+                    : "bg-gray-600"
+                }`}
+              >
+                {msg?.newMessage}
+              </div>
             </div>
           );
         })}
