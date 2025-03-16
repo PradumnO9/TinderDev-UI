@@ -60,7 +60,8 @@ const Chat = () => {
     };
   }, [loggedInUserId, targetUserId]);
 
-  const sendMessage = () => {
+  const sendMessage = (e) => {
+    e.preventDefault();
     const socket = createSocketConnection();
     socket.emit("sendMessage", {
       firstName: user?.firstName,
@@ -128,18 +129,18 @@ const Chat = () => {
           );
         })}
       </div>
-      <div className="p-3 flex border-t border-gray-600">
-        <input
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          type="text"
-          placeholder="Type here"
-          className="input w-full"
-        />
-        <button onClick={sendMessage} className="btn btn-primary">
-          Send
-        </button>
-      </div>
+      <form onSubmit={sendMessage}>
+        <div className="p-3 flex border-t border-gray-600">
+          <input
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            type="text"
+            placeholder="Type here"
+            className="input w-full"
+          />
+          <button className="btn btn-primary">Send</button>
+        </div>
+      </form>
     </div>
   );
 };
